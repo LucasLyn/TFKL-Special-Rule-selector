@@ -1,5 +1,6 @@
 ﻿using System;
-//using System.IO;
+using System.IO;
+using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace TFKL_Special_Rule_selector
@@ -9,7 +10,9 @@ namespace TFKL_Special_Rule_selector
         public static void Main()
         {
             // Version 1.00 - Initial release
-            string versionNr = "1.00";
+            string versionNr = "2.00";
+            string textDocPath = @"C:\temp\SpecialRules.txt";
+            string textDocPath2 = @"/c C:\temp\SpecialRules.txt";
             Console.WriteLine("TheFiveKageLeague Special Rule selector - version " + versionNr);
             Console.WriteLine("");
 
@@ -22,7 +25,8 @@ namespace TFKL_Special_Rule_selector
                 "5 stars only",                             //Players are only allowed to use 5 star characters or below
                 "Akatsuki only",                            //Players are only allowed to use "Akatsuki" affiliation characters
                 "Ultimate characters only",                 //Players are only allowed to use ultimate or red ultimate characters
-                "Single Target ninjutsu characters only"    //Players are only allowed to use characters with a single target ninjutsu
+                "Single Target ninjutsu characters only"//,   //Players are only allowed to use characters with a single target ninjutsu
+                //"placeholder"                               //Placeholder value to prevent crash on 5 generated rules
             };
 
             // Generic text
@@ -44,22 +48,32 @@ namespace TFKL_Special_Rule_selector
                     // Set console output text to green
                     Console.ForegroundColor = ConsoleColor.Green;
 
-                    // Set i to 0, as long as i is lower than userChoice, generate random string from array specialRules
-                    for (int i = 0; i < userChoice; i++)
-                    {
-                        // Generates 
-                        int randomRuleIndex = ruleSelector.Next(specialRules.Length);
-                        Console.WriteLine(specialRules[randomRuleIndex]);
-                    }
+                    int randomRuleIndex1 = ruleSelector.Next(specialRules.Length);
+
+                    Console.WriteLine(specialRules[randomRuleIndex1]);
 
                     // Reset console output text to default
                     Console.ResetColor();
 
+                    using (StreamWriter sw = File.CreateText(textDocPath))
+                    {
+                        sw.WriteLine(specialRules[randomRuleIndex1]);
+                    }
+
                     Console.WriteLine("");
                     Console.WriteLine("Your special rule(s) has been generated!");
-                    Console.WriteLine("Please press 'ENTER' to exit the program.");
+                    Console.WriteLine("A text file containing the special rules has also been created!");
+                    Console.WriteLine("It can be found in 'C:/Users/SpecialRules.txt/'");
+                    Console.WriteLine("Press 'ENTER' to open the newly created text file.");
+                    Console.ReadKey();
+
+                    var proc = Process.Start(@"cmd.exe ", textDocPath2);
+
+                    Console.WriteLine("Close the file and press 'ENTER' again to exit the program.");
                     Console.ReadKey();
                     break;
+
+
 
                 case 2:
                     Console.WriteLine("You have chosen to generate 2 special rule(s)!");
@@ -68,19 +82,45 @@ namespace TFKL_Special_Rule_selector
 
                     Console.ForegroundColor = ConsoleColor.Green;
 
-                    for (int i = 0; i < userChoice; i++)
+                    randomRuleIndex1 = ruleSelector.Next(specialRules.Length);
+                    int randomRuleIndex2 = ruleSelector.Next(specialRules.Length);
+
+                    //While loops to prevent values from being the same
+                    while (randomRuleIndex1 == randomRuleIndex2)
                     {
-                        int randomRuleIndex = ruleSelector.Next(specialRules.Length);
-                        Console.WriteLine(specialRules[randomRuleIndex]);
+                        randomRuleIndex1 = ruleSelector.Next(specialRules.Length);
                     }
+
+                    while (randomRuleIndex2 == randomRuleIndex1)
+                    {
+                        randomRuleIndex2 = ruleSelector.Next(specialRules.Length);
+                    }
+
+                    Console.WriteLine(specialRules[randomRuleIndex1]);
+                    Console.WriteLine(specialRules[randomRuleIndex2]);
 
                     Console.ResetColor();
 
+                    using (StreamWriter sw = File.CreateText(textDocPath))
+                    {
+                        sw.WriteLine(specialRules[randomRuleIndex1]);
+                        sw.WriteLine(specialRules[randomRuleIndex2]);
+                    }
+
                     Console.WriteLine("");
                     Console.WriteLine("Your special rule(s) has been generated!");
-                    Console.WriteLine("Please press 'ENTER' to exit the program.");
+                    Console.WriteLine("A text file containing the special rules has also been created!");
+                    Console.WriteLine("It can be found in 'C:/Users/SpecialRules.txt/'");
+                    Console.WriteLine("Press 'ENTER' to open the newly created text file.");
+                    Console.ReadKey();
+
+                    proc = Process.Start(@"cmd.exe ", textDocPath2);
+
+                    Console.WriteLine("Close the file and press 'ENTER' again to exit the program.");
                     Console.ReadKey();
                     break;
+
+
 
                 case 3:
                     Console.WriteLine("You have chosen to generate 3 special rule(s)!");
@@ -88,20 +128,53 @@ namespace TFKL_Special_Rule_selector
                     Console.WriteLine("");
 
                     Console.ForegroundColor = ConsoleColor.Green;
-                    
-                    for (int i = 0; i < userChoice; i++)
+
+                    randomRuleIndex1 = ruleSelector.Next(specialRules.Length);
+                    randomRuleIndex2 = ruleSelector.Next(specialRules.Length);
+                    int randomRuleIndex3 = ruleSelector.Next(specialRules.Length);
+
+                    while (randomRuleIndex1 == randomRuleIndex2 || randomRuleIndex1 == randomRuleIndex3)
                     {
-                        int randomRuleIndex = ruleSelector.Next(specialRules.Length);
-                        Console.WriteLine(specialRules[randomRuleIndex]);
+                        randomRuleIndex1 = ruleSelector.Next(specialRules.Length);
                     }
+
+                    while (randomRuleIndex2 == randomRuleIndex1 || randomRuleIndex2 == randomRuleIndex3)
+                    {
+                        randomRuleIndex2 = ruleSelector.Next(specialRules.Length);
+                    }
+
+                    while (randomRuleIndex3 == randomRuleIndex1 || randomRuleIndex3 == randomRuleIndex2)
+                    {
+                        randomRuleIndex3 = ruleSelector.Next(specialRules.Length);
+                    }
+
+                    Console.WriteLine(specialRules[randomRuleIndex1]);
+                    Console.WriteLine(specialRules[randomRuleIndex2]);
+                    Console.WriteLine(specialRules[randomRuleIndex3]);
 
                     Console.ResetColor();
 
+                    using (StreamWriter sw = File.CreateText(textDocPath))
+                    {
+                        sw.WriteLine(specialRules[randomRuleIndex1]);
+                        sw.WriteLine(specialRules[randomRuleIndex2]);
+                        sw.WriteLine(specialRules[randomRuleIndex3]);
+                    }
+
                     Console.WriteLine("");
                     Console.WriteLine("Your special rule(s) has been generated!");
-                    Console.WriteLine("Please press 'ENTER' to exit the program.");
+                    Console.WriteLine("A text file containing the special rules has also been created!");
+                    Console.WriteLine("It can be found in 'C:/Users/SpecialRules.txt/'");
+                    Console.WriteLine("Press 'ENTER' to open the newly created text file.");
+                    Console.ReadKey();
+
+                    proc = Process.Start(@"cmd.exe ", textDocPath2);
+
+                    Console.WriteLine("Close the file and press 'ENTER' again to exit the program.");
                     Console.ReadKey();
                     break;
+
+
 
                 case 4:
                     Console.WriteLine("You have chosen to generate 4 special rule(s)!");
@@ -110,19 +183,65 @@ namespace TFKL_Special_Rule_selector
 
                     Console.ForegroundColor = ConsoleColor.Green;
 
-                    for (int i = 0; i < userChoice; i++)
+                    randomRuleIndex1 = ruleSelector.Next(specialRules.Length);
+                    randomRuleIndex2 = ruleSelector.Next(specialRules.Length);
+                    randomRuleIndex3 = ruleSelector.Next(specialRules.Length);
+                    int randomRuleIndex4 = ruleSelector.Next(specialRules.Length);
+
+                    while (randomRuleIndex1 == randomRuleIndex2 || randomRuleIndex1 == randomRuleIndex3 || randomRuleIndex1 == randomRuleIndex4)
                     {
-                    int randomRuleIndex = ruleSelector.Next(specialRules.Length);
-                    Console.WriteLine(specialRules[randomRuleIndex]);
+                        randomRuleIndex1 = ruleSelector.Next(specialRules.Length);
                     }
+
+                    while (randomRuleIndex2 == randomRuleIndex1 || randomRuleIndex2 == randomRuleIndex3 || randomRuleIndex1 == randomRuleIndex4)
+                    {
+                        randomRuleIndex2 = ruleSelector.Next(specialRules.Length);
+                    }
+
+                    while (randomRuleIndex3 == randomRuleIndex1 || randomRuleIndex3 == randomRuleIndex2 || randomRuleIndex3 == randomRuleIndex4)
+                    {
+                        randomRuleIndex3 = ruleSelector.Next(specialRules.Length);
+                    }
+
+                    while (randomRuleIndex4 == randomRuleIndex1 || randomRuleIndex4 == randomRuleIndex2 || randomRuleIndex4 == randomRuleIndex3)
+                    {
+                        randomRuleIndex4 = ruleSelector.Next(specialRules.Length);
+                    }
+
+                    Console.WriteLine(specialRules[randomRuleIndex1]);
+                    Console.WriteLine(specialRules[randomRuleIndex2]);
+                    Console.WriteLine(specialRules[randomRuleIndex3]);
+                    Console.WriteLine(specialRules[randomRuleIndex4]);
+
+                    string generatedRules = specialRules[randomRuleIndex1] + System.Environment.NewLine +
+                    specialRules[randomRuleIndex2] + System.Environment.NewLine +
+                    specialRules[randomRuleIndex3] + System.Environment.NewLine +
+                    specialRules[randomRuleIndex4];
 
                     Console.ResetColor();
 
+                    using (StreamWriter sw = File.CreateText(textDocPath))
+                    {
+                        sw.WriteLine(specialRules[randomRuleIndex1]);
+                        sw.WriteLine(specialRules[randomRuleIndex2]);
+                        sw.WriteLine(specialRules[randomRuleIndex3]);
+                        sw.WriteLine(specialRules[randomRuleIndex4]);
+                    }
+
                     Console.WriteLine("");
                     Console.WriteLine("Your special rule(s) has been generated!");
-                    Console.WriteLine("Please press 'ENTER' to exit the program.");
+                    Console.WriteLine("A text file containing the special rules has also been created!");
+                    Console.WriteLine("It can be found in 'C:/Users/SpecialRules.txt/'");
+                    Console.WriteLine("Press 'ENTER' to open the newly created text file.");
+                    Console.ReadKey();
+
+                    proc = Process.Start(@"cmd.exe ", textDocPath2);
+
+                    Console.WriteLine("Close the file and press 'ENTER' again to exit the program.");
                     Console.ReadKey();
                     break;
+
+
 
                 case 5:
                     Console.WriteLine("You have chosen to generate 5 special rule(s)!");
@@ -131,19 +250,68 @@ namespace TFKL_Special_Rule_selector
 
                     Console.ForegroundColor = ConsoleColor.Green;
 
-                    for (int i = 0; i < userChoice; i++)
+                    randomRuleIndex1 = ruleSelector.Next(specialRules.Length);
+                    randomRuleIndex2 = ruleSelector.Next(specialRules.Length);
+                    randomRuleIndex3 = ruleSelector.Next(specialRules.Length);
+                    randomRuleIndex4 = ruleSelector.Next(specialRules.Length);
+                    int randomRuleIndex5 = ruleSelector.Next(specialRules.Length);
+
+                    while (randomRuleIndex1 == randomRuleIndex2 || randomRuleIndex1 == randomRuleIndex3 || randomRuleIndex1 == randomRuleIndex4)
                     {
-                        int randomRuleIndex = ruleSelector.Next(specialRules.Length);
-                        Console.WriteLine(specialRules[randomRuleIndex]);
+                        randomRuleIndex1 = ruleSelector.Next(specialRules.Length);
                     }
+
+                    while (randomRuleIndex2 == randomRuleIndex1 || randomRuleIndex2 == randomRuleIndex3 || randomRuleIndex1 == randomRuleIndex4)
+                    {
+                        randomRuleIndex2 = ruleSelector.Next(specialRules.Length);
+                    }
+
+                    while (randomRuleIndex3 == randomRuleIndex1 || randomRuleIndex3 == randomRuleIndex2 || randomRuleIndex3 == randomRuleIndex4)
+                    {
+                        randomRuleIndex3 = ruleSelector.Next(specialRules.Length);
+                    }
+
+                    while (randomRuleIndex4 == randomRuleIndex1 || randomRuleIndex4 == randomRuleIndex2 || randomRuleIndex4 == randomRuleIndex3)
+                    {
+                        randomRuleIndex4 = ruleSelector.Next(specialRules.Length);
+                    }
+
+                    while (randomRuleIndex5 == randomRuleIndex1 || randomRuleIndex5 == randomRuleIndex2 || randomRuleIndex5 == randomRuleIndex3 || randomRuleIndex5 == randomRuleIndex4)
+                    {
+                        randomRuleIndex5 = ruleSelector.Next(specialRules.Length);
+                    }
+
+                    Console.WriteLine(specialRules[randomRuleIndex1]);
+                    Console.WriteLine(specialRules[randomRuleIndex2]);
+                    Console.WriteLine(specialRules[randomRuleIndex3]);
+                    Console.WriteLine(specialRules[randomRuleIndex4]);
+                    Console.WriteLine(specialRules[randomRuleIndex5]);
 
                     Console.ResetColor();
 
+                    using (StreamWriter sw = File.CreateText(textDocPath))
+                    {
+                        sw.WriteLine(specialRules[randomRuleIndex1]);
+                        sw.WriteLine(specialRules[randomRuleIndex2]);
+                        sw.WriteLine(specialRules[randomRuleIndex3]);
+                        sw.WriteLine(specialRules[randomRuleIndex4]);
+                        sw.WriteLine(specialRules[randomRuleIndex5]);
+                    }
+
                     Console.WriteLine("");
                     Console.WriteLine("Your special rule(s) has been generated!");
-                    Console.WriteLine("Please press 'ENTER' to exit the program.");
+                    Console.WriteLine("A text file containing the special rules has also been created!");
+                    Console.WriteLine("It can be found in 'C:/Users/SpecialRules.txt/'");
+                    Console.WriteLine("Press 'ENTER' to open the newly created text file.");
+                    Console.ReadKey();
+
+                    proc = Process.Start(@"cmd.exe ", textDocPath2);
+
+                    Console.WriteLine("Close the file and press 'ENTER' again to exit the program.");
                     Console.ReadKey();
                     break;
+
+
 
                 default:
                     Console.WriteLine("Whoops! Looks like you did something wrong.");
