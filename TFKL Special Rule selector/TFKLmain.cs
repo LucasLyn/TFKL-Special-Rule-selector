@@ -10,10 +10,26 @@ namespace TFKL_Special_Rule_selector
         public static void Main()
         {
             // Version 1.00 - Initial release
-            string versionNr = "2.00";
+            // Version 2.00 - Improved release with text file creation + no same generated special rules
+            // Version 2.10 - Fixed version number + added creator string
+            string versionNr = "2.10";
+
+            // Program creator
+            string creator = "Lyn aka /u/Lyn_The_2nd";
+
+            // Text file paths to use for creating, writing, and opening
             string textDocPath = @"C:\temp\SpecialRules.txt";
             string textDocPath2 = @"/c C:\temp\SpecialRules.txt";
+
+            // Set text color to red
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            // Print program creator + version
             Console.WriteLine("TheFiveKageLeague Special Rule selector - version " + versionNr);
+            Console.WriteLine("Created by " + creator + " for /r/TheFiveKageLeague");
+
+            // Set text color back to white
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("");
 
             // Create a new random instance
@@ -22,11 +38,11 @@ namespace TFKL_Special_Rule_selector
             // Creating Array with special rules
             String[] specialRules = new String[]
             {
-                "5 stars only",                             //Players are only allowed to use 5 star characters or below
-                "Akatsuki only",                            //Players are only allowed to use "Akatsuki" affiliation characters
-                "Ultimate characters only",                 //Players are only allowed to use ultimate or red ultimate characters
-                "Single Target ninjutsu characters only"//,   //Players are only allowed to use characters with a single target ninjutsu
-                //"placeholder"                               //Placeholder value to prevent crash on 5 generated rules
+                "5 stars only",                             // Players are only allowed to use 5 star characters or below
+                "Akatsuki only",                            // Players are only allowed to use "Akatsuki" affiliation characters
+                "Ultimate characters only",                 // Players are only allowed to use ultimate or red ultimate characters
+                "Single Target ninjutsu characters only"//,   // Players are only allowed to use characters with a single target ninjutsu
+                //"placeholder"                               // Placeholder value to prevent crash on 5 generated rules
             };
 
             // Generic text
@@ -48,15 +64,19 @@ namespace TFKL_Special_Rule_selector
                     // Set console output text to green
                     Console.ForegroundColor = ConsoleColor.Green;
 
+                    // Generate a random number in the specialRules array
                     int randomRuleIndex1 = ruleSelector.Next(specialRules.Length);
 
+                    // Print the string that equates to the generated array index
                     Console.WriteLine(specialRules[randomRuleIndex1]);
 
                     // Reset console output text to default
                     Console.ResetColor();
 
+                    // Create a text file in the chosen path
                     using (StreamWriter sw = File.CreateText(textDocPath))
                     {
+                        // Write the genrated special rules to the created text file
                         sw.WriteLine(specialRules[randomRuleIndex1]);
                     }
 
@@ -67,6 +87,7 @@ namespace TFKL_Special_Rule_selector
                     Console.WriteLine("Press 'ENTER' to open the newly created text file.");
                     Console.ReadKey();
 
+                    // Open a cmd.exe process to open the newly created txt file
                     var proc = Process.Start(@"cmd.exe ", textDocPath2);
 
                     Console.WriteLine("Close the file and press 'ENTER' again to exit the program.");
